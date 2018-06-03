@@ -32,10 +32,10 @@ Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO
 
 // Setup a feed called 'photocell' for publishing.
 // Notice MQTT paths for AIO follow the form: <username>/feeds/<feedname>
-Adafruit_MQTT_Publish photocell = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/light");
+// Adafruit_MQTT_Publish photocell = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/light");
 
-// Setup a feed called 'onoff' for subscribing to changes.
-Adafruit_MQTT_Subscribe onoffbutton = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/light");
+// Setup a feed called 'email' for subscribing to changes.
+Adafruit_MQTT_Subscribe emailfeed = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/email");
 
 /*************************** Sketch Code ************************************/
 
@@ -50,7 +50,7 @@ void setup() {
   lcd.begin(16, 2);
 
   pinMode(D5, OUTPUT);
-  Serial.begin(115200);
+  Serial.begin(9600);
   delay(10);
 
   Serial.println(F("Adafruit MQTT demo"));
@@ -70,25 +70,26 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: "); Serial.println(WiFi.localIP());
 
-  // Setup MQTT subscription for onoff feed.
-  mqtt.subscribe(&onoffbutton);
+  // Setup MQTT subscription for email feed.
+  mqtt.subscribe(&emailfeed);
 }
 
 uint32_t x=0;
 int value1 = 0;
 int value0;
+
 void loop() {
 
   MQTT_connect();
 
   Adafruit_MQTT_Subscribe *subscription;
   while ((subscription = mqtt.readSubscription(2000))) {
-    if (subscription == &onoffbutton) {
+    if (subscription == &emailfeed) {
       Serial.print(F("Got: "));
-      Serial.println((char *)onoffbutton.lastread);
+      Serial.println((char *)emailfeed.lastread);
       lcd.setBacklight(255);
       lcd.home(); lcd.clear();
-      String msg = (char *)onoffbutton.lastread;
+      String msg = (char *)emailfeed.lastread;
       lcd.print(msg);
       if ( msg == "Turn Off"){
         digitalWrite(D5, LOW);
