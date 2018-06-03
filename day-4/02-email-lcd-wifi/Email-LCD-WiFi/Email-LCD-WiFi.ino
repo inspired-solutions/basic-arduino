@@ -13,8 +13,8 @@
 
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883                   // use 8883 for SSL
-#define AIO_USERNAME    "gerardgun"
-#define AIO_KEY         "ff941d30dc1544aa873a878f50517825"
+#define AIO_USERNAME    "helpse"
+#define AIO_KEY         "6480108c1ff84c6ea150b8570af5a204"
 
 LiquidCrystal_PCF8574 lcd(0x3F);
 
