@@ -16,7 +16,7 @@
 #define AIO_USERNAME    "helpse"
 #define AIO_KEY         "6480108c1ff84c6ea150b8570af5a204"
 
-LiquidCrystal_PCF8574 lcd(0x3F);
+LiquidCrystal_PCF8574 lcd(0x27);
 
 /************ Global State (you don't need to change this!) ******************/
 
@@ -46,10 +46,10 @@ void MQTT_connect();
 void setup() {
 
   Wire.begin();
-  Wire.beginTransmission(0x3F);
+  Wire.beginTransmission(0x27);
   lcd.begin(16, 2);
 
-  pinMode(D5, OUTPUT);
+  pinMode(D6, OUTPUT);
   Serial.begin(9600);
   delay(10);
 
@@ -72,6 +72,8 @@ void setup() {
 
   // Setup MQTT subscription for email feed.
   mqtt.subscribe(&emailfeed);
+
+  lcd.setBacklight(255);
 }
 
 uint32_t x=0;
@@ -89,13 +91,16 @@ void loop() {
       Serial.println((char *)emailfeed.lastread);
       lcd.setBacklight(255);
       lcd.home(); lcd.clear();
+
+      lcd.print("FOO");
+      
       String msg = (char *)emailfeed.lastread;
       lcd.print(msg);
       if ( msg == "Turn Off"){
-        digitalWrite(D5, LOW);
+        digitalWrite(D6, LOW);
       }
       if (msg == "Turn On"){
-        digitalWrite(D5, HIGH);
+        digitalWrite(D6, HIGH);
       }
     }
   }

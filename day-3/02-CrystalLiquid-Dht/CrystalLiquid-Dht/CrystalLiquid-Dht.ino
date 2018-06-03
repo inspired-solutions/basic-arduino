@@ -16,8 +16,6 @@ void setup() {
   dht.begin();
   Serial.begin(9600);  
   // put your setup code here, to run once:
-//  pinMode(9, OUTPUT);
-//  pinMode(6, INPUT);
   Serial.println("LCD...");
 
   while (! Serial);
